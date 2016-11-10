@@ -3,72 +3,25 @@ import ReactDOM from 'react-dom'
 import {
   Router,
   Route,
+  IndexRoute,
   hashHistory,
-  Link,
-  Lifecycle,
-  IndexLink
+  Link
 } from 'react-router'
+import About from "./components/About.js"
+import Inbox from "./components/Inbox.js"
+import App from './components/App.js'
+import Message from './components/message.js'
 
-const App = React.createClass({
-  render() {
-    return (<div>
-           <h1>app</h1>  
-             <ul>
-                <li><IndexLink to="/" activeStyle={{color: 'red'}}>Index</IndexLink></li>
-                <li><Link to="/about" activeStyle={{color: 'red'}}>About</Link></li>
-                <li><Link to="/inbox" activeStyle={{color: 'red'}}>Inbox</Link></li>
-            </ul>
-           {this.props.children} 
-           </div>)
-  }
-})
+ReactDOM.render((<Router history={hashHistory}>
+                     
+                  <Route path="/" component={App}>
+                  //   <IndexRoute component={App}/>
+                    <Route path="/about" component={About} />
+                    <Route path="/inbox" component={Inbox} >
+                       <Route path="/message/:id/:name" component={Message}/>
+                    </Route>
+                  </Route>
 
-const About = React.createClass({
+                </Router>
 
-  render() {
-    return (<div>
-           About 
-           </div>)
-  }
-})
-const Inbox = React.createClass({
-  render() {
-    return (<div>
-           Inbox 
-           </div>)
-  }
-})
-const Index = React.createClass({
-  render() {
-    return (<div>
-           index 
-           </div>)
-  }
-})
-const routes = {
-  path: '/',
-  component: App,
-  indexRoute: {
-    component: Index
-  },
-  childRoutes: [{
-    path: '/about',
-    component: About
-  }, {
-    path: '/inbox',
-    component: Inbox
-  }]
-}
-
-const Ru = (
-  <Router history={hashHistory} >
-   <Route path="/" component={App}>
-    <Route path="about" component={About}/>
-    <Route path="inbox" component={Inbox}/>
-   </Route>
-</Router>
-)
-
-
-ReactDOM.render(
-  Ru, document.getElementById('app'))
+), document.getElementById('app'))
